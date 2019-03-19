@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/colorPrimaryDark">
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="vertical">-->
+        <!--<ImageView-->
+            <!--android:id="@+id/image"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:src="@mipmap/ic_launcher"-->
+            <!--android:visibility="gone" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/distancetext"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="100dp"-->
+            <!--android:gravity="center"-->
+            <!--android:singleLine="true"-->
+            <!--android:text="Total Distance:"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="25sp"-->
+            <!--android:textStyle="bold" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/speedtext"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="150dp"-->
+            <!--android:gravity="center"-->
+            <!--android:singleLine="true"-->
+            <!--android:text="Instantaneous Speed:"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="18sp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/timetext"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="190dp"-->
+            <!--android:gravity="center"-->
+            <!--android:singleLine="true"-->
+            <!--android:text="Total Time:"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="17sp" />-->
+
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<Button-->
+                <!--android:id="@+id/start"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_gravity="bottom"-->
+                <!--android:background="@android:color/white"-->
+                <!--android:paddingBottom="0dp"-->
+                <!--android:text="Start Calculating" />-->
+
+            <!--<Button-->
+                <!--android:id="@+id/pause"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="start"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@android:color/white"-->
+                <!--android:text="Pause"-->
+                <!--android:visibility="gone" />-->
+
+            <!--<Button-->
+                <!--android:id="@+id/stop"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="end"-->
+                <!--android:layout_marginStart="2dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@android:color/white"-->
+                <!--android:text="Stop"-->
+                <!--android:visibility="gone" />-->
+        <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+
+
+
+    <TextView
+        android:id="@+id/app_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Geo Tracker"
+        android:textSize="30sp"
+        android:textColor="#ffffff"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:layout_margin="5dp"/>
+
+
+    <TextView
+        android:id="@+id/tvLocation"
+        android:layout_below="@id/app_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Location"
+        android:textSize="20sp"
+        android:textColor="#FFEB3B"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:padding="5dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/lLocation"
+        android:layout_below="@id/tvLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:padding="5dp">
+
+        <!--Latitude-->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Latitude"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/tvLatitude"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="0.0"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"/>
+
+
+        </LinearLayout>
+
+        <!--Longitude-->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Longitude"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/tvLongitude"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="0.0"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"/>
+
+
+        </LinearLayout>
+
+        <!--Accuracy-->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Accuracy"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/tvAccuracy"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="0.0"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSpeed"
+        android:layout_below="@id/lLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Speed"
+        android:textSize="20sp"
+        android:textColor="#FFEB3B"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:padding="5dp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:id="@+id/lSpeed"
+        android:layout_below="@id/tvSpeed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:padding="5dp">
+
+        <!--speed heading-->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Current Speed"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Max Speed"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Average Speed"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/tvCurrentSpeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Current Speed"
+                android:textSize="25sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tvMaxSpeed"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Max Speed"
+                android:textSize="25sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tvAvgSpeed"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Average Speed"
+                android:textSize="25sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kmph"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kmph"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kmph"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvDistance"
+        android:layout_below="@id/lSpeed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Distance"
+        android:textSize="20sp"
+        android:textColor="#FFEB3B"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:padding="5dp"
+        android:textStyle="bold"/>
+    <LinearLayout
+        android:id="@+id/lDistance"
+        android:layout_below="@id/tvDistance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/tvDistanceCovered"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Distance"
+                android:textSize="25sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"
+                android:gravity="center"/>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Km"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"/>
+
+            />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_below="@id/lDistance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Travel Time"
+        android:textSize="20sp"
+        android:textColor="#FFEB3B"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:padding="5dp"
+        android:textStyle="bold"/>
+    <LinearLayout
+        android:layout_below="@id/tvTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/tvTimeTaken"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Time taken"
+                android:textSize="25sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"
+                android:gravity="center"/>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="min"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"/>
+
+            />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button_green"
+            android:text="Start"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:layout_marginEnd="5dp"/>
+        <Button
+            android:id="@+id/btnStop"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:text="Stop"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:background="@drawable/round_button_red"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
