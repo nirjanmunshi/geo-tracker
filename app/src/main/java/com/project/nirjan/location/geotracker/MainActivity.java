@@ -20,9 +20,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.project.nirjan.location.geotracker.database.DbHelper;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Objects;
 
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnStart, btnStop;
     double max_speed = 0.0;
     String location_data = null;
+    DbHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,21 +61,17 @@ public class MainActivity extends AppCompatActivity {
 
         initialization();
 
+        // add permission check
+        File f = new File(Config.FOLDER_LOCATION);
+        if (!f.exists())
+            f.mkdir();
 
-//        dist =  findViewById(R.id.distancetext);
-//        time =  findViewById(R.id.timetext);
-//        speed = findViewById(R.id.speedtext);
-//
-//        start = findViewById(R.id.start);
-//        pause = findViewById(R.id.pause);
-//        stop = findViewById(R.id.stop);
-//
-//        image =  findViewById(R.id.image);
+        db = new DbHelper(MainActivity.this);
+        db.createTempTable();
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                     //The method below checks if Location is enabled on device or not. If not, then an alert dialog box appears with option
                     //to enable gps.
@@ -106,65 +106,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        start.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                //The method below checks if Location is enabled on device or not. If not, then an alert dialog box appears with option
-//                //to enable gps.
-//                checkGps();
-//                locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-//
-//                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//
-//                    return;
-//                }
-//
-//                //Here, the Location Service gets bound and the GPS Speedometer gets Active.
-//                if (!status)
-//                    bindService();
-//                pDialog = new ProgressDialog(MainActivity.this);
-//                pDialog.setIndeterminate(true);
-//                pDialog.setCancelable(false);
-//                pDialog.setMessage("Getting Location...");
-//                pDialog.show();
-//                start.setVisibility(View.GONE);
-//                pause.setVisibility(View.VISIBLE);
-//                pause.setText("Pause");
-//                stop.setVisibility(View.VISIBLE);
-//
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                    startForegroundService(new Intent(MainActivity.this,LocationService.class));
-//                } else
-//                    startService(new Intent(MainActivity.this,LocationService.class));
-//
-//                registerReceiver(receiver,new IntentFilter(getString(R.string.broadcast_key)));
-//
-//            }
-//        });
-
-//        pause.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (pause.getText().toString().equalsIgnoreCase("pause")) {
-//                    pause.setText("Resume");
-//                    p = 1;
-//
-//                } else if (pause.getText().toString().equalsIgnoreCase("Resume")) {
-//                    checkGps();
-//                    locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-//                    if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//                        //Toast.makeText(this, "GPS is Enabled in your devide", Toast.LENGTH_SHORT).show();
-//                        return;
-//                    }
-//                    pause.setText("Pause");
-//                    p = 0;
-//
-//                }
-//            }
-//        });
-
-
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,27 +119,6 @@ public class MainActivity extends AppCompatActivity {
                 stopService(new Intent(MainActivity.this,LocationService.class));
             }
         });
-
-//        stop.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (status)
-//                    unbindService();
-//                start.setVisibility(View.VISIBLE);
-//                pause.setText("Pause");
-//                pause.setVisibility(View.GONE);
-//                stop.setVisibility(View.GONE);
-//                p = 0;
-//                if (receiver != null)
-//                    unregisterReceiver(receiver);
-//
-////                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-////                    stopS(new Intent(MainActivity.this,LocationService.class));
-////                } else
-//                    stopService(new Intent(MainActivity.this,LocationService.class));
-//
-//            }
-//        });
 
     }
 
@@ -319,6 +239,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Error in location data", Toast.LENGTH_SHORT).show();
         }
 
+        // calculating max speed
         if (current_speed > max_speed)
             max_speed = current_speed;
 

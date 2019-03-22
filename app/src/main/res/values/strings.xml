@@ -2,7 +2,7 @@
     <string name="app_name">GeoTracker</string>
 
     <string name="broadcast_key">
-        org.care.india.geo-tracker.broadcast-receiver.key
+        com.project.nirjan.location.geotracker.broadcast-receiver.key
     </string>
 
     <string name="notification_text">Latitude: %1$f \nLongitude: %2$f \nAccuracy: %3$f m.</string>

@@ -6,6 +6,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,6 +27,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.project.nirjan.location.geotracker.database.DbHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,6 +48,7 @@ public class LocationService extends Service implements LocationListener, Google
     private final IBinder mBinder = new LocalBinder();
     float [] a;
     JSONObject jo = null;
+    DbHelper db;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -119,7 +122,7 @@ public class LocationService extends Service implements LocationListener, Google
             max_speed = speed;
 
         if (travelTime != 0.0)
-            avg_speed = distance/travelTime;
+            avg_speed = (distance * 60)/travelTime;
 
         HashMap<Object,Object> hashMap = new HashMap<>();
         Log.d(TAG, "onAccuracyChanged: "+location.getAccuracy());
@@ -146,6 +149,9 @@ public class LocationService extends Service implements LocationListener, Google
         i.putExtra(Config.DISTANCE,distance);
         i.putExtra(Config.TRAVEL_TIME,travelTime);
 
+        ContentValues cv = new ContentValues();
+        cv.put(Config.LOCATION,jo.toString());
+
         sendBroadcast(i);
     }
 
@@ -169,16 +175,18 @@ public class LocationService extends Service implements LocationListener, Google
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             startMyOwnForeground();
-        else
+            db = new DbHelper(getApplicationContext());
+        } else{
             startForeground(1, new Notification());
+        }
         return START_STICKY;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void startMyOwnForeground(){
-        String NOTIFICATION_CHANNEL_ID = "org.project.nirjan.location.geotracker";
+        String NOTIFICATION_CHANNEL_ID = "com.project.nirjan.location.geotracker";
         String channelName = "channel2019";
         NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
         chan.setLightColor(Color.BLUE);
@@ -219,7 +227,5 @@ public class LocationService extends Service implements LocationListener, Google
 //        Intent notificationIntent = new Intent(getApplicationContext(),MainActivity.class);
 //        notification.contentIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, notificationIntent, 0);
         startForeground(2, notification);
-
-
     }
 }

@@ -21,5 +21,12 @@ public class Config {
     public static final String DATABASE_NAME = "GeoTracker.db";
     public static final int DATABASE_VERSION = 1;
     public static final String FOLDER_LOCATION = Environment.getExternalStorageDirectory() + File.separator + "GeoTracker";
+    public static final String TABLE_TEMP = "tbl_temp";
+
+    // table information
+    public static final String ID = "id";
+    public static final String LOCATION = "location_data";
+    public static final String SUBMISSION_TIME = "sub_time";
+
 
 }
