@@ -32,21 +32,22 @@ import com.project.nirjan.location.geotracker.database.DbHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class LocationService extends Service implements LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "LocationService";
-    private static final long INTERVAL = 1000 * 2;
-    private static final long FASTEST_INTERVAL = 1000 * 1;
+    private static final long INTERVAL = 1000 * 5;
+    private static final long FASTEST_INTERVAL = 1000 * 3;
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
     Location mCurrentLocation, lStart, lEnd;
     static double distance = 0;
     double speed, max_speed = 0.0, avg_speed = 0.0;
     private final IBinder mBinder = new LocalBinder();
-    float [] a;
     JSONObject jo = null;
     DbHelper db;
 
@@ -92,12 +93,12 @@ public class LocationService extends Service implements LocationListener, Google
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        Log.d(TAG, "Connection Suspended "+i);
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Log.d(TAG, "Connection Failed "+connectionResult.getErrorMessage());
     }
 
     @Override
@@ -111,8 +112,7 @@ public class LocationService extends Service implements LocationListener, Google
             lEnd = mCurrentLocation;
 
         speed = location.getSpeed() * 18 / 5;
-        distance = (lStart.distanceTo(lEnd) / 1000.00);
-
+        distance = distance +  (lStart.distanceTo(lEnd) / 1000.00);
 
         MainActivity.endTime = System.currentTimeMillis();
         long travelTime = MainActivity.endTime - MainActivity.startTime;
@@ -139,6 +139,16 @@ public class LocationService extends Service implements LocationListener, Google
 
 
         jo = new JSONObject(hashMap);
+        JSONObject joCoordinate = new JSONObject();
+        try {
+            joCoordinate.put("lat" , location.getLatitude());
+            joCoordinate.put("lng" , location.getLongitude());
+            jo.put("coordinate",joCoordinate);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e(TAG, "Issue in Coordinate Object");
+        }
+
         Log.d(TAG, "onLocationChanged: "+jo.toString());
 
         Intent i = new Intent(getApplicationContext().getString(R.string.broadcast_key));
@@ -151,12 +161,14 @@ public class LocationService extends Service implements LocationListener, Google
 
         ContentValues cv = new ContentValues();
         cv.put(Config.LOCATION,jo.toString());
+        cv.put(Config.SUBMISSION_TIME,getCurrentTimeStamp());
+        db.insertData(cv);
 
         sendBroadcast(i);
     }
 
-    public class LocalBinder extends Binder {
-        public LocationService getService() {
+    class LocalBinder extends Binder {
+        LocationService getService() {
             return LocationService.this;
         }
     }
@@ -180,6 +192,7 @@ public class LocationService extends Service implements LocationListener, Google
             db = new DbHelper(getApplicationContext());
         } else{
             startForeground(1, new Notification());
+            db = new DbHelper(getApplicationContext());
         }
         return START_STICKY;
     }
@@ -227,5 +240,11 @@ public class LocationService extends Service implements LocationListener, Google
 //        Intent notificationIntent = new Intent(getApplicationContext(),MainActivity.class);
 //        notification.contentIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, notificationIntent, 0);
         startForeground(2, notification);
+    }
+
+    public static String getCurrentTimeStamp() {
+        Date date = new Date();
+        Timestamp ts = new Timestamp(date.getTime());
+        return String.valueOf(ts);
     }
 }
